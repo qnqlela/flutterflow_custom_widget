@@ -1,4 +1,4 @@
-# ▷ flutterflow_custom_widget 원본 코드는
+# ▷ flutterflow 원본 코드는
 ## lib폴더 안에 main.dart 파일을 보시면 됩니다!
 ## 
 # ▷ flutter 원본 코드는
