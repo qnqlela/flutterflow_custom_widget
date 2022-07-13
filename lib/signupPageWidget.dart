@@ -1,6 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import '../../home_page/home_page_widget.dart'; // 다 확인해보진 않았으나, 모든 page_widget들은 이 형식들에서 이름만 바꿔 쓰시면 될 것 같습니다.
+// Flutterflow에서 기본적으로 material과 firebase를 import해줍니다. 그러므로 중복되지 않게 이들을 따로 import하면 에러가 발생합니다.
 
 
+// User Model 생성.
 class User {
   String nickname;
 
@@ -152,9 +155,9 @@ class _SignupPageState extends State<SignupPage> {
               foregroundColor: MaterialStateProperty.resolveWith(
                     (states) {
                   if (states.contains(MaterialState.disabled)) {
-                    return Colors.black; // Textfield의 onChanged로 항상 감시하다가 _isValid함수가 충족되지 않았을 경우 글씨 색깔 검은색 유지.
+                    return Colors.black; // Textfield의 onChanged로 항상 감지하다가 _isValid 함수가 충족되지 않았을 경우 글씨는 검은색을 유지.
                   } else {
-                    return Color(0xff4B39EF); // _isValid함수 충족 시, 앞에 명시된 색깔로 반환.
+                    return Color(0xff4B39EF); // _isValid 함수 충족 시, 앞에 명시된 색깔로 반환.
                   }
                 },
               ),
@@ -162,7 +165,7 @@ class _SignupPageState extends State<SignupPage> {
               alignment: Alignment.centerLeft),
           onPressed: _isValid()
               ? _register // _isValid함수가 유효한 경우 _register함수를 실행합니다.
-              : null,// 그렇지 않다면 null값을 반환합니다.(작동 불가 상태) => 이 값을 이용하여 위와 같이 글씨 색깔에 변화를 줄 수 있습니다.
+              : null,// 그렇지 않다면 null값을 반환합니다. => 이 값을 이용하여 위와 같이 글씨 색깔에 변화를 줄 수 있습니다.
           icon: Text(
             '입니다.',
             style: TextStyle(
