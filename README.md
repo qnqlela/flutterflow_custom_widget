@@ -1,16 +1,7 @@
-# flutterflow_custom_widget
+### flutterflow_custom_widget 원본 코드는
+#### lib폴더 안에 main.dart 파일을 보시면 됩니다!
 
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### flutter 원본 코드는
+#### lib폴더 안에 main2.dart 파일을 보시면 됩니다!
+#### (cloud_firestore, firebase_auth 이 두 가지 패키지가 설치되어있다면,
+####  전체 코드를 복사하여 실제로 build도 가능합니다!)
