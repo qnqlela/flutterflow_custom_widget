@@ -1,6 +1,11 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import '../../home_page/home_page_widget.dart';
+// Flutterflow에서 기본적으로 material과 firebase를 import해줍니다. 그러므로 중복되지 않게 이들을 따로 import하면 안 됩니다.
 
+import 'package:firebase_auth/firebase_auth.dart';
+import '../../home_page/home_page_widget.dart'; // 다 확인해보진 않았으나, 모든 page_widget들은 이 형식들에서 이름만 바꿔 쓰시면 될 것 같습니다.
+
+
+
+// User Model 생성.
 class User {
   String nickname;
 
@@ -13,6 +18,9 @@ class User {
   }
 }
 
+
+
+// User Repository 생성.
 class UserRepository {
   static Future<bool> signup(User user) async {
     final FirebaseAuth auth = FirebaseAuth.instance;
@@ -20,7 +28,7 @@ class UserRepository {
       await FirebaseFirestore.instance
           .collection('users')
           .doc(auth.currentUser.uid)
-          .update(user.toMap());
+          .update(user.toMap()); // ② 전달받은 인자를 User Model에 명시된 toMap메소드를 통해 Map형식으로 Firebase의 user collection의 uid와 일치하는 document에 사용자로부터 입력받은 nickname 데이터를 갱신.
       return true;
     } catch (e) {
       return false;
@@ -28,6 +36,9 @@ class UserRepository {
   }
 }
 
+
+
+// SignupPage 시작.
 class SignupPage extends StatefulWidget {
   const SignupPage({
     Key key,
@@ -43,10 +54,6 @@ class SignupPage extends StatefulWidget {
 }
 
 class _SignupPageState extends State<SignupPage> {
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   void dispose() {
@@ -55,10 +62,13 @@ class _SignupPageState extends State<SignupPage> {
     super.dispose();
   }
 
+  // Textfield에 입력되는 값을 읽기 위한 controller.
   final TextEditingController _nicknameController = TextEditingController();
 
+  // _register 함수에 쓰일 user 선언.
   final user = User();
 
+  // 간단한 validation.
   bool _isValid() {
     return (_nicknameController.text.length >= 2);
   }
@@ -67,18 +77,19 @@ class _SignupPageState extends State<SignupPage> {
     FocusManager.instance.primaryFocus?.unfocus();
   }
 
+  // ① UserRepository에 명시된 signup메소드에 signupUser라는 매개변수(=변수) 자체를 전달하는 기능을 하는 함수.
   void signup(User signupUser) async {
     await UserRepository.signup(signupUser);
   }
 
+  // 버튼을 눌렀을 때의 기능을 담당하는 함수.
   void _register() {
     unfocusKeyboard();
-    //validation
     var signupUser = User(nickname: _nicknameController.text);
     signup(signupUser);
     Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
         builder: (BuildContext context) =>
-            HomePageWidget()), (route) => false);
+            HomePageWidget()), (route) => false); // 기존 flutter에서 사용하는 방식 그대로이지만, flutterflow에서 정상적으로 사용하려면 이와 같이 페이지명 뒤에 widget을 붙여야 합니다!
   }
 
   Widget _notice() {
@@ -95,11 +106,12 @@ class _SignupPageState extends State<SignupPage> {
     );
   }
 
+  // 닉네임 입력란
   Widget _nickname() {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 50.0, vertical: 15.0),
       child: TextField(
-        onChanged: (text) {
+        onChanged: (text) { // TextField에 입력되는 값(text)을 인식하여 그 때마다 setState((){})를 통해 화면을 갱신해줍니다.
           setState(() {});
         },
         controller: _nicknameController,
@@ -134,6 +146,7 @@ class _SignupPageState extends State<SignupPage> {
     );
   }
 
+  // 회원가입 완료 버튼 위젯(제출 버튼 위젯)
   Widget _signin() {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 50.0),
@@ -144,15 +157,17 @@ class _SignupPageState extends State<SignupPage> {
               foregroundColor: MaterialStateProperty.resolveWith(
                     (states) {
                   if (states.contains(MaterialState.disabled)) {
-                    return Colors.black;
+                    return Colors.black; // Textfield의 onChanged로 항상 감시하다가 _isValid함수가 충족되지 않았을 경우 글씨 색깔 검은색 유지.
                   } else {
-                    return Color(0xff4B39EF);
+                    return Color(0xff4B39EF); // _isValid함수 충족 시, 앞에 명시된 색깔로 반환.
                   }
                 },
               ),
               padding: MaterialStateProperty.all(EdgeInsets.zero),
               alignment: Alignment.centerLeft),
-          onPressed: _isValid() ? _register : null,
+          onPressed: _isValid()
+              ? _register // _isValid함수가 유효한 경우 _register함수를 실행합니다.
+              : null,// 그렇지 않다면 null값을 반환합니다.(작동 불가 상태) => 이 값을 이용하여 위와 같이 글씨 색깔에 변화를 줄 수 있습니다.
           icon: Text(
             '입니다.',
             style: TextStyle(
@@ -167,6 +182,8 @@ class _SignupPageState extends State<SignupPage> {
     );
   }
 
+
+  // SignupPage의 위젯 빌드
   @override
   Widget build(BuildContext context) {
     return Scaffold(
