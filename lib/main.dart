@@ -1,11 +1,6 @@
-// Flutterflow에서 기본적으로 material과 firebase를 import해줍니다. 그러므로 중복되지 않게 이들을 따로 import하면 안 됩니다.
-
 import 'package:firebase_auth/firebase_auth.dart';
-import '../../home_page/home_page_widget.dart'; // 다 확인해보진 않았으나, 모든 page_widget들은 이 형식들에서 이름만 바꿔 쓰시면 될 것 같습니다.
 
 
-
-// User Model 생성.
 class User {
   String nickname;
 
